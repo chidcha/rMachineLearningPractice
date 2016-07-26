@@ -68,7 +68,7 @@ set.seed(1)
 # 5.3 Make the decision tree model (we want to predict MEDV using all other 
 # variables)
 
-tModel <- 
+tModel <-  # save the model ad tModel 
 rpart.plot(tModel)
 
 # 5.4 Make the prediction
