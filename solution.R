@@ -71,7 +71,7 @@ sqrt(sum(predtrain - train$MEDV)^2)/length(predtrain)
 ## Linear model challenge
 # Build a linear model to predict the House Price in Boston
 
-# 7.1 Download the data set 
+# 1 Download the data set 
 url <- "https://archive.ics.uci.edu/ml/machine-learning-databases/housing/housing.data"
 boston <- read.table(url, header = FALSE, nrows = -1)
 names(boston) <- c("CRIM", "ZN", "INDUS", "CHAS", "NOX", "RM", "AGE", "DIS", "RAD",
@@ -79,21 +79,59 @@ names(boston) <- c("CRIM", "ZN", "INDUS", "CHAS", "NOX", "RM", "AGE", "DIS", "RA
 
 head(boston)
 
-# 7.2 Build the linear model (we want to predict MEDV using all other 
+# 2 Build the linear model (we want to predict MEDV using all other 
 # variables)
 lmModel <- lm(MEDV ~ ., data = boston)
 
-# 7.3 Make the prediction
+# 3 Make the prediction
 predV <- predict(lmModel, newdata = boston)
 
-# 7.4 Look at the parameters associated with the model. coefficients, r-squared value
+# 4 Look at the parameters associated with the model. coefficients, r-squared value
 coef(lmModel)
 sumMod <- summary(lmModel)
 sumMod$r.squared
 
-# 7.5 Access the model performance. Use root mean square value
+# 5 Access the model performance. Use root mean square value
 sqrt(sum((predV - boston$MEDV)^2))/length(predV)
 
 
+# Knn challenge
+##install.packages("FNN")
+library(FNN)
+
+
+# 1 Download the data set 
+url <- "https://archive.ics.uci.edu/ml/machine-learning-databases/housing/housing.data"
+boston <- read.table(url, header = FALSE, nrows = -1)
+names(boston) <- c("CRIM", "ZN", "INDUS", "CHAS", "NOX", "RM", "AGE", "DIS", "RAD",
+                   "TAX", "PTRATIO", "B", "LSTAT", "MEDV")
+
+head(boston)
+
+# 2 Scale the data set
+myScale <- function(x){
+  xmin <- min(x)
+  xmax <- max(x)
+  (x - xmin)/(xmax - xmin)
+}
+
+ncol(boston)
+sboston <- apply(boston[,1:13], 2, myScale)
+pboston <- boston[,14]
+
+# 3. divide the data into train and test set
+nr <- nrow(boston)
+set.seed(1)
+inTrain <- sample(1:nr, 0.6*nr)
+train <- sboston[inTrain,]
+trainV <- pboston[inTrain]
+test <- sboston[-inTrain,]
+testV <- pboston[-inTrain]
+
+# 3 Make the prediction
+predV <- knn.reg(train, test, trainV, k = 6)
+
+# 5 Access the model performance. Use root mean square value
+sqrt(sum((predV$pred - testV)^2))/length(predV$pred)
 
 
