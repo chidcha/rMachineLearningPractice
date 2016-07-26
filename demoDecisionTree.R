@@ -62,24 +62,19 @@ head(boston)
 # 5.2 Split the data into train (60%) and test (40%) set
 nr <- nrow(boston)
 set.seed(1)
-inTrain <- sample(1:nr, 0.6*nr)
-train <- boston[inTrain,]
-test <- boston[-inTrain,]
+
 
 
 # 5.3 Make the decision tree model (we want to predict MEDV using all other 
 # variables)
 
-tModel <- rpart(MEDV ~ ., data = boston)
+tModel <- 
 rpart.plot(tModel)
 
 # 5.4 Make the prediction
-predV <- predict(tModel, newdata = test)
-predtrain <- predict(tModel, newdata = train)
+
 
 # Access the model performance. Use root mean square value
-data.frame(predV, test$MEDV)
-sqrt(sum(predV - test$MEDV)^2)/length(predV)
-sqrt(sum(predtrain - train$MEDV)^2)/length(predtrain)
+
 
 
