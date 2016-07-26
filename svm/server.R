@@ -23,7 +23,7 @@ server <- function(input, output){
          pch = 19, col = myIris$Species[inTrain], 
          xlab = "Petal Length", ylab =  "Petal Width", cex.lab = 1.5,
          cex.axis = 1.5, xlim = c(-3,2.8))
-    legend(x=3, y = 2.4, legend = c("Versicolor", "Virginica"), 
+    legend(x=-3, y = 1.8, legend = c("Versicolor", "Virginica"), 
            col = c("black", "red"), bty = "n", pch = 19, cex = 1.5)
     
     if(input$boundary) {
