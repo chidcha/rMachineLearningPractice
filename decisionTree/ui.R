@@ -8,10 +8,16 @@ ui <- fluidPage(
   
   sidebarLayout(
     sidebarPanel(
-      numericInput("seed", "Seed", value = 1, min = 0, max = 1000)
+      numericInput("seed", "Seed", value = 1, min = 0, max = 1000),
+      checkboxInput("predict", 
+                    "Show prediction mechanism", value = FALSE),
+      uiOutput("inputRange")
     ),
     
     mainPanel(
+      fluidRow(column(10, h4('Data Set'), align = "left")),
+      tableOutput("table"),
+      fluidRow(column(10, h4('Corresponding Tree Model'), align = "left")),
       plotOutput("plot")
     )
   )   
