@@ -68,5 +68,32 @@ sqrt(sum(predV - test$MEDV)^2)/length(predV)
 sqrt(sum(predtrain - train$MEDV)^2)/length(predtrain)
 
 
+## Linear model challenge
+# Build a linear model to predict the House Price in Boston
+
+# 7.1 Download the data set 
+url <- "https://archive.ics.uci.edu/ml/machine-learning-databases/housing/housing.data"
+boston <- read.table(url, header = FALSE, nrows = -1)
+names(boston) <- c("CRIM", "ZN", "INDUS", "CHAS", "NOX", "RM", "AGE", "DIS", "RAD",
+                   "TAX", "PTRATIO", "B", "LSTAT", "MEDV")
+
+head(boston)
+
+# 7.2 Build the linear model (we want to predict MEDV using all other 
+# variables)
+lmModel <- lm(MEDV ~ ., data = boston)
+
+# 7.3 Make the prediction
+predV <- predict(lmModel, newdata = boston)
+
+# 7.4 Look at the parameters associated with the model. coefficients, r-squared value
+coef(lmModel)
+sumMod <- summary(lmModel)
+sumMod$r.squared
+
+# 7.5 Access the model performance. Use root mean square value
+sqrt(sum((predV - boston$MEDV)^2))/length(predV)
+
+
 
 

@@ -74,7 +74,7 @@ rpart.plot(tModel)
 # 5.4 Make the prediction
 
 
-# Access the model performance. Use root mean square value
+# 5.5 Access the model performance. Use root mean square value
 
 
 
