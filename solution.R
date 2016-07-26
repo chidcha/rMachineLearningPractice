@@ -31,3 +31,42 @@ predtrain <- predict(tModel, newdata = train)
 data.frame(predV, test$MEDV)
 sqrt(sum(predV - test$MEDV)^2)/length(predV)
 sqrt(sum(predtrain - train$MEDV)^2)/length(predtrain)
+
+
+## Random Forest Challenge
+# Build a random Forest model to predict the House Price in Boston
+
+# 1. Download the data set 
+url <- "https://archive.ics.uci.edu/ml/machine-learning-databases/housing/housing.data"
+boston <- read.table(url, header = FALSE, nrows = -1)
+names(boston) <- c("CRIM", "ZN", "INDUS", "CHAS", "NOX", "RM", "AGE", "DIS", "RAD",
+                   "TAX", "PTRATIO", "B", "LSTAT", "MEDV")
+
+head(boston)
+
+# 2. Split the data into train (60%) and test (40%) set
+nr <- nrow(boston)
+set.seed(1)
+inTrain <- sample(1:nr, 0.6*nr)
+train <- boston[inTrain,]
+test <- boston[-inTrain,]
+
+
+# 3. Make the random forest model (we want to predict MEDV using all other 
+# variables)
+
+rfModel <- randomForest(MEDV ~ ., data = boston, mtry = 5, ntrees = 20)
+
+
+# 4.Make the prediction
+predV <- predict(rfModel, newdata = test)
+predtrain <- predict(rfModel, newdata = train)
+
+# 5. Access the model performance. Use root mean square value
+data.frame(predV, test$MEDV)
+sqrt(sum(predV - test$MEDV)^2)/length(predV)
+sqrt(sum(predtrain - train$MEDV)^2)/length(predtrain)
+
+
+
+
