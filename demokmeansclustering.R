@@ -8,3 +8,10 @@ predGroupC <- ifelse(predGroup$cluster==2, "setosa",
                      ifelse(predGroup$cluster==1, "versicolor", "virginnica"))
 predGroupC <- factor(predGroupC)
 table(predGroupC, group)
+
+
+#############################################################################
+# Challenge: Find 3 clusters in mtcars dataset. Do not use mpg variable in 
+# clustering. After clustering make a box plot of mpg vs clustering group 
+#############################################################################
+
