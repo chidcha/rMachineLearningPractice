@@ -36,3 +36,11 @@ predClass <- predict(svmModel, newdata = test)
 mean(predClass == testClass)
 table(predClass,testClass)
 
+
+# 5. Challenge
+############################################################################
+# Build a generalized SVM classifier that uses both Sepal and Petal 
+# measurement to identify all 3 species. Find the accuracy and the confusion
+# matrix for the classifier
+##########################################################################
+

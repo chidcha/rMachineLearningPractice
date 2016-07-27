@@ -139,7 +139,7 @@ head(mtcars)
 length(names(mtcars))
 mtcars1 <- scale(mtcars[,2:11], center = TRUE, scale = TRUE)
 predGroup <- kmeans(mtcars1, centers = 3, nstart = 10)
-
+mtcars2 <- mtcars
 mtcars2$clusters <- predGroup$cluster
 boxplot(mpg ~ clusters, data = mtcars2, col = c(2,3,4))
 
@@ -155,5 +155,23 @@ clusters <- cutree(carsCluster, k = 3)
 mtcars2 <- mtcars
 mtcars2$clusters <- clusters
 boxplot(mpg ~ clusters, data = mtcars2, col = c(2,3,4))
+
+### SVM Challenge
+############################################################################
+# Build a generalized SVM classifier that uses both Sepal and Petal 
+# measurement to identify all 3 species. Find the accuracy and the confusion
+# matrix for the classifier
+##########################################################################
+inTrain <- sample(1:nrow(iris), 0.6*nrow(iris))
+train <- iris[inTrain,]
+test <- iris[-inTrain,]
+
+svmModel <- svm(Species ~ . , data = iris, kernel = "radial", 
+                cost = 1, gamma = 0.5)
+
+predClass <- predict(svmModel, test)
+
+mean(predClass == test$Species)
+table(predClass, test$Species)
 
 
