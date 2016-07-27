@@ -134,4 +134,26 @@ predV <- knn.reg(train, test, trainV, k = 6)
 # 5 Access the model performance. Use root mean square value
 sqrt(sum((predV$pred - testV)^2))/length(predV$pred)
 
+### k-means clustering challenge
+head(mtcars)
+length(names(mtcars))
+mtcars1 <- scale(mtcars[,2:11], center = TRUE, scale = TRUE)
+predGroup <- kmeans(mtcars1, centers = 3, nstart = 10)
+
+mtcars2$clusters <- predGroup$cluster
+boxplot(mpg ~ clusters, data = mtcars2, col = c(2,3,4))
+
+### hierarchical clustering challenge
+#############################################################################
+# Challenge: Find 3 clusters in mtcars dataset. Do not use mpg variable in 
+# clustering. After clustering make a box plot of mpg vs clustering group 
+#############################################################################
+mtcars1 <- scale(mtcars[,2:11], center = TRUE, scale = TRUE)
+distM <- dist(mtcars1)
+carsCluster <- hclust(distM)
+clusters <- cutree(carsCluster, k = 3)
+mtcars2 <- mtcars
+mtcars2$clusters <- clusters
+boxplot(mpg ~ clusters, data = mtcars2, col = c(2,3,4))
+
 
