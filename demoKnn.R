@@ -26,8 +26,32 @@ mean(testCl == testClass)
 table(testCl,testClass)
 
 
-# 5. Challenge: Split the boston data sets into two parts containing 60% and 40%
-# of the data. Use knn to predict the house price and also find out the RMS erro
+# 5. k-fold cross validation illustration
+nn <- 1:10   ## nearest neighbour
+kFolds <- 10  ## number of folds
+
+folds <- sample(rep(1:kFolds, length.out=nrow(iris)))
+
+predEvalMat <- matrix(data = NA, nrow = nrow(iris), ncol = 10)
+predEvalMat
+
+for (i in nn){
+  for (j in 1:kFolds){
+    inTest <- which(folds==j)
+    train <- iris[-inTest,]
+    test <- iris[inTest,]
+    predClass <- knn(train[,1:4], test[,1:4], train[,5], k = i)
+    testClass <- test[,5]
+    predEvalMat[inTest,i] <- predClass == testClass
+  }
+}
+
+apply(predEvalMat, 2, sum)
+
+
+# 6. Challenge: Split the boston data sets into two parts containing 60% and 40%
+# of the data. Use knn to predict the house price of the data set that has 40%
+# of the data using the part that has 60% data and also find out the RMS error
 
 ##install.packages("FNN")
 library(FNN)
