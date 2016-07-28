@@ -174,4 +174,10 @@ predClass <- predict(svmModel, test)
 mean(predClass == test$Species)
 table(predClass, test$Species)
 
-
+## Challenge question Neural Network
+# Build a linear model to predict the House Price in Boston. Find the
+# RMS error
+nnModel <- nnet(MEDV ~ ., data = boston, size = 10,
+                linout = TRUE, skip = TRUE)
+predV <-  predict(nnModel, boston)
+head(data.frame(predV, boston$MEDV))
