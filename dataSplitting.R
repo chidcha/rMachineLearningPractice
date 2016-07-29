@@ -21,26 +21,26 @@ test <- iris[!inTrain,]
 ###########################################################################
 # k-fold cross validation
 ###########################################################################
-##http://www.r-bloggers.com/cross-validation-for-predictive-analytics-using-r/
+nn <- 1:10   ## nearest neighbour
+kFolds <- 10  ## number of folds
 
-nTrain <- 150
-kFolds <- 5
-folds <- sample(rep(1:nFolds, length.out = nTrain))
-cv_tmp <- matrix(NA, nrow = kFolds, ncol = length(iris))
-for (i in 1:kFolds) {
-  iTest <- which(folds == i)
-  train <- iris[-iTest, ]
-  test <- iris[iTest, ]
-  fitted_models <- apply(t(df), 2, function(degf) lm(y ~ ns(x, df = degf)))
-  x <- test_xy$x
-  y <- test_xy$y
-  pred <- mapply(function(obj, degf) predict(obj, data.frame(ns(x, df = degf))), 
-                 fitted_models, df)
-  cv_tmp[k, ] <- sapply(as.list(data.frame(pred)), function(y_hat) mean((y - 
-                                                                           y_hat)^2))
+folds <- sample(rep(1:kFolds, length.out=nrow(iris)))
+
+predEvalMat <- matrix(data = NA, nrow = nrow(iris), ncol = 10)
+predEvalMat
+
+for (i in nn){
+  for (j in 1:kFolds){
+    inTest <- which(folds==j)
+    train <- iris[-inTest,]
+    test <- iris[inTest,]
+    predClass <- knn(train[,1:4], test[,1:4], train[,5], k = i)
+    testClass <- test[,5]
+    predEvalMat[inTest,i] <- predClass == testClass
+  }
 }
-cv <- colMeans(cv_tmp)
 
+apply(predEvalMat, 2, sum)
 
 
 #########################################################################
