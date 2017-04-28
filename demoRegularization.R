@@ -24,13 +24,13 @@ coef(lModel, s = exp(-1))
 coef(lModel, s = exp(-1))[5]
 
 ## 5. Model Assesment
-mean((predV - yTest)^2)
+sqrt(mean((predV - yTest)^2))
 
 ## 6. Finding the optimal value of lambda using cross-validation
-cvModel <- cv.glmnet(x[train,],y[train], alpha=1, nfolds = 5) 
+cvModel <- cv.glmnet(x[inTrain,],y[inTrain], alpha=1, nfolds = 5) 
 bestlam  <- cvModel$lambda.min 
 cvpredV <- predict(cvModel, s=bestlam, newx=x[-inTrain,]) 
-mean((cvpredV - yTest)^2) 
+sqrt(mean((cvpredV - yTest)^2))
 
 ## 7. Variation of mean-squared error with the penalty parameter
 plot(cvModel)
