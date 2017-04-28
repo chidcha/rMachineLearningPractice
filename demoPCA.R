@@ -3,11 +3,12 @@
 ###########################################################################
 cor(iris[,1:4])
 
-plot(iris$Petal.Length, iris$Petal.Width, col = iris$Species)
-
 names(iris)
+plot(iris$Sepal.Length, col = iris$Species)
+plot(iris$Sepal.Width, col = iris$Species)
+
 pc1 <- prcomp(iris[,3:4], scale = TRUE)
-plot(pc1$x[,1], pc1$x[,2], col = iris$Species)
+plot(pc1$x[,1], col = iris$Species)
 
 pc1$rotation
 
@@ -21,21 +22,13 @@ pc2$x[1:3,]
 
 plot(pc2$x[,1], col = iris$Species)
 
-par(mfrow=c(2,2))
-for (i in 1:4){
-  plot(iris[,i], col = iris$Species)
-}
-
-par(mfrow=c(1,1))
-plot(pc2$x[,1], col = iris$Species)
-
 iris2 <- scale(iris[,1:4])
 iris2[1:5,]%*%pc2$rotation
 pc2$x[1:5,]
 
 ## % variance explained by  principle components
 pc2$sdev
-pc2V <- pcI$sdev^2
+pc2V <- pc2$sdev^2
 pve <- pc2V/sum(pc2V)
 pve
 plot(pve, xlab = "Principal Component", ylab = "Proportion of 
