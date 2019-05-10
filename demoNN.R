@@ -1,41 +1,47 @@
-###############################################################################
-# We will make a linear model to predict the mpg (miles/gallon) of a car 
-# based on its design aspects
-#############################################################################
-# 1. Load the required libraries
-##install.packages("nnet")
-library(nnet)  # library for neural network
+#install.packages('neuralnet')
+library(neuralnet)
 
-# 2. Building the neural network model
-## 2.a Splitting the data set into training and testing data set
-nr <- nrow(mtcars)
+# 2. Understanding the data set
+head(iris)
+summary(iris)
+str(iris)
+
+
+# 3. Building the neural network model
+## 3.1 Splitting the data set into training and testing data set
+nr <- nrow(iris)
 inTrain <- sample(1:nr, 0.6*nr)
-train <- mtcars[inTrain,]
-test <- mtcars[-inTrain, 2:11]
-testV <- mtcars[-inTrain, 1]
+train <- iris[inTrain,]
+test <- iris[-inTrain, 1:4]
+testClass <- iris[-inTrain, 5]
 
-## 2.b Training the neural network model
-nnModel <- nnet(mpg ~ wt + cyl, data = train, size = 3,
-                linout = TRUE, skip = TRUE)
-nnModel <- nnet(mpg ~ ., data = train, size = 3,
-                linout = TRUE, skip = TRUE)
+## 3.2a Training the neural network model
+nn <- neuralnet(Species == "setosa" ~ Petal.Length + Petal.Width, train, linear.output = FALSE)
 
+## 3.2b making prediction
+pred <- predict(nn, test)
 
-## 2.c Making prediction with the tree model
-test[1,]
-predict(nnModel, test[1,])
-testV[1]
-
-predV <-  predict(nnModel, test)
-predV
-data.frame(predV, testV)
-
-## 3. Checking the accuracy of the model
-mean((predV - testV)^2) # RMS Error
+## 3.3c checking accuracy
+table(testClass == "setosa", pred[, 1] > 0.5)
 
 
-## Challenge question
-# Build a linear model to predict the House Price in Boston. Find the
-# RMS error
+## 3.2a Training the neural network multiclass model 
+nn <- neuralnet((Species == "setosa") + (Species == "versicolor") + (Species == "virginica") ~
+                  Petal.Length + Petal.Width, train, linear.output = FALSE) 
+
+## 3.2b making prediction
+pred <- predict(nn, test)
+
+## 3.3c checking accuracy
+table(testClass, apply(pred, 1, which.max))
+
+
+
+
+
+
+
+
+
 
 
